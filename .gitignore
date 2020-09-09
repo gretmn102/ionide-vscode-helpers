@@ -51,5 +51,7 @@ temp/
 src/paket/README.md
 release.cmd
 *.js
+!splitter.config.js
 release
 .ionide/
+.fake

@@ -2,9 +2,10 @@ namespace Fable.Import
 open System
 open System.Text.RegularExpressions
 open Fable.Core
-open Fable.Import.JS
-
-open Fable.Import.Node
+open Fable.Core.JS
+open Fable.Core.JsInterop
+open Node
+open Node.Base
 
 module rec ws =
     module WebSocket =
@@ -48,7 +49,7 @@ module rec ws =
             abstract clientTracking: bool option with get, set
             abstract perMessageDeflate: U2<bool, IPerMessageDeflateOptions> option with get, set
 
-        and [<AllowNullLiteral>] [<Import("WebSocket.Server","ws")>] Server(?options: IServerOptions, ?callback: Function) =
+        and [<AllowNullLiteral>] [<Import("WebSocket.Server","ws")>] Server(?options: IServerOptions, ?callback: JsFunc) =
             member __.options with get(): IServerOptions = jsNative and set(v: IServerOptions): unit = jsNative
             member __.path with get(): string = jsNative and set(v: string): unit = jsNative
             member __.clients with get(): ResizeArray<WebSocket> = jsNative and set(v: ResizeArray<WebSocket>): unit = jsNative
@@ -65,8 +66,8 @@ module rec ws =
 
         type [<Import("WebSocket","ws")>] Globals =
             static member createServer(?options: IServerOptions, ?connectionListener: Func<WebSocket, unit>): Server = jsNative
-            static member connect(address: string, ?openListener: Function): unit = jsNative
-            static member createConnection(address: string, ?openListener: Function): unit = jsNative
+            static member connect(address: string, ?openListener: JsFunc): unit = jsNative
+            static member createConnection(address: string, ?openListener: JsFunc): unit = jsNative
 
     type [<AllowNullLiteral>] [<Import("default","ws")>] WebSocket(address: string, ?protocols: U2<string, ResizeArray<string>>, ?options: WebSocket.IClientOptions) =
         member __.CONNECTING with get(): float = jsNative and set(v: float): unit = jsNative

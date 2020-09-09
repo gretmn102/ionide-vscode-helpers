@@ -1,7 +1,7 @@
 namespace Fable.Import
 open System
 open Fable.Core
-open Fable.Import.JS
+open Fable.Core.JS
 
 module Axios =
     type AxiosHttpBasicAuth =
@@ -10,7 +10,7 @@ module Axios =
 
     and AxiosProxyAuthConfig =
         abstract username: string with get, set
-        abstract password: string with get, set
+        abstract password: string with get, set 
 
     and AxiosProxyConfig =
         abstract host: string with get, set

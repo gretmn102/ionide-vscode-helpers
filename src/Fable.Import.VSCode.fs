@@ -1,11 +1,12 @@
 namespace Fable.Import
 open System
 open Fable.Core
-open Fable.Import.JS
-open Fable.Import.Node
+open Fable.Core.JS
+open Node
+open Fable.Core.JsInterop
 
 module vscode =
-    type [<Import("Disposable","vscode")>] Disposable(callOnDispose: Function) =
+    type [<Import("Disposable","vscode")>] Disposable(callOnDispose: JsFunc) =
         static member from([<ParamArray>] disposableLikes: obj[]): Disposable = failwith "JS only"
         member __.dispose(): obj = failwith "JS only"
 
@@ -14,14 +15,14 @@ module vscode =
 
 
     and [<Import("EventEmitter", "vscode")>] EventEmitter<'T>() =
-        member __.addListener(``event``: string, listener: Function): Events.EventEmitter = failwith "JS only"
-        member __.on(``event``: string, listener: Function): Events.EventEmitter = failwith "JS only"
-        member __.once(``event``: string, listener: Function): Events.EventEmitter = failwith "JS only"
-        member __.removeListener(``event``: string, listener: Function): Events.EventEmitter = failwith "JS only"
+        member __.addListener(``event``: string, listener: JsFunc): Events.EventEmitter = failwith "JS only"
+        member __.on(``event``: string, listener: JsFunc): Events.EventEmitter = failwith "JS only"
+        member __.once(``event``: string, listener: JsFunc): Events.EventEmitter = failwith "JS only"
+        member __.removeListener(``event``: string, listener: JsFunc): Events.EventEmitter = failwith "JS only"
         member __.removeAllListeners(?``event``: string): Events.EventEmitter = failwith "JS only"
         member __.setMaxListeners(n: int): unit = failwith "JS only"
         member __.getMaxListeners(): int = failwith "JS only"
-        member __.listeners(``event``: string): ResizeArray<Function> = failwith "JS only"
+        member __.listeners(``event``: string): ResizeArray<JsFunc> = failwith "JS only"
         member __.listenerCount(``type``: string): int = failwith "JS only"
         member __.emit(``event``: string, [<ParamArray>] args: obj[]): bool = failwith "JS only"
         member __.event with get (): Event<'T> = failwith "JS only"
@@ -478,10 +479,10 @@ module vscode =
         abstract blockComment: CharacterPair option with get, set
 
     and IndentationRule =
-        abstract decreaseIndentPattern: RegExp with get, set
-        abstract increaseIndentPattern: RegExp with get, set
-        abstract indentNextLinePattern: RegExp option with get, set
-        abstract unIndentedLinePattern: RegExp option with get, set
+        abstract decreaseIndentPattern: RegExpConstructor with get, set
+        abstract increaseIndentPattern: RegExpConstructor with get, set
+        abstract indentNextLinePattern: RegExpConstructor option with get, set
+        abstract unIndentedLinePattern: RegExpConstructor option with get, set
 
     and IndentAction =
         | None = 0
@@ -495,14 +496,14 @@ module vscode =
         abstract removeText: float option with get, set
 
     and OnEnterRule =
-        abstract beforeText: RegExp with get, set
-        abstract afterText: RegExp option with get, set
+        abstract beforeText: RegExpConstructor with get, set
+        abstract afterText: RegExpConstructor option with get, set
         abstract action: EnterAction with get, set
 
     and LanguageConfiguration =
         abstract comments: CommentRule option with get, set
         abstract brackets: ResizeArray<CharacterPair> option with get, set
-        abstract wordPattern: RegExp option with get, set
+        abstract wordPattern: RegExpConstructor option with get, set
         abstract indentationRules: IndentationRule option with get, set
         abstract onEnterRules: ResizeArray<OnEnterRule> option with get, set
         abstract ___electricCharacterSupport: obj option with get, set
@@ -739,8 +740,8 @@ module vscode =
         /// Default to the root folders of the current workspace plus the extension's install directory.
         ///
         /// Pass in an empty array to disallow access to any local resources.
-        abstract localResourceRoots: ReadonlyArray<Uri> option
-
+        abstract localResourceRoots: ResizeArray<Uri> option
+        
     /// A webview displays html content, like an iframe.
     and [<AllowNullLiteral>] Webview =
         /// Content settings for the webview.
@@ -915,7 +916,7 @@ module vscode =
         abstract member terminate : unit -> unit
 
     type [<Import("tasks", "vscode")>] tasks =
-        static member taskExecutions with get() : ReadonlyArray<TaskExecution> = failwith "JS only"
+        static member taskExecutions with get() : ResizeArray<TaskExecution> = failwith "JS only"
         static member executeTask(task: Task) : Promise<TaskExecution> = failwith "JS only"
         static member registerTaskProvider(``type``: string, provider: TaskProvider) : Disposable = failwith "JS only"
 

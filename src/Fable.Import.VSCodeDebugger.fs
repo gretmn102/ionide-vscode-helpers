@@ -2,8 +2,8 @@ namespace Fable.Import
 open System
 open System.Text.RegularExpressions
 open Fable.Core
-open Fable.Import.JS
-open Fable.Import.Node
+open Fable.Core.JS
+open Node
 
 module DebugProtocol =
     type [<AllowNullLiteral>] ProtocolMessage =

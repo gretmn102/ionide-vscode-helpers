@@ -2,9 +2,10 @@
 namespace Fable.Import
 open System
 open Fable.Core
-open Fable.Import.JS
+open Fable.Core.JS
 open Fable.Import.vscode
-open Fable.Import.Node.ChildProcess
+open Node.ChildProcess
+open Node.Base
 
 module rec LanguageServer =
 
@@ -231,7 +232,7 @@ module rec LanguageServer =
         | Pipe = 2
         | Socket = 3
 
-    type [<AllowNullLiteral>] SocketTransport =
+    type [<AllowNullLiteral>] [<Import("SocketTransport","vscode-languageclient")>] SocketTransport =
         abstract kind: TransportKind with get, set
         abstract port: float with get, set
 
@@ -244,8 +245,8 @@ module rec LanguageServer =
         let isTransportKind (v: Transport) = match v with U2.Case1 _ -> true | _ -> false
         let asTransportKind (v: Transport) = match v with U2.Case1 o -> Some o | _ -> None
         let ofSocketTransport v: Transport = v |> U2.Case2
-        let isSocketTransport (v: Transport) = match v with U2.Case2 _ -> true | _ -> false
-        let asSocketTransport (v: Transport) = match v with U2.Case2 o -> Some o | _ -> None
+        // let isSocketTransport (v: Transport) = match v with U2.Case2 _ -> true | _ -> false
+        // let asSocketTransport (v: Transport) = match v with U2.Case2 o -> Some o | _ -> None
 
     type [<AllowNullLiteral>] NodeModule =
         abstract ``module``: string with get, set
@@ -269,8 +270,8 @@ module rec LanguageServer =
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module ServerOptions =
         let ofExecutable v: ServerOptions = v |> U7.Case1
-        let isExecutable (v: ServerOptions) = match v with U7.Case1 _ -> true | _ -> false
-        let asExecutable (v: ServerOptions) = match v with U7.Case1 o -> Some o | _ -> None
+        // let isExecutable (v: ServerOptions) = match v with U7.Case1 _ -> true | _ -> false
+        // let asExecutable (v: ServerOptions) = match v with U7.Case1 o -> Some o | _ -> None
         let ofRun v: ServerOptions = v |> U7.Case2
         let isRun (v: ServerOptions) = match v with U7.Case2 _ -> true | _ -> false
         let asRun (v: ServerOptions) = match v with U7.Case2 o -> Some o | _ -> None
@@ -278,8 +279,8 @@ module rec LanguageServer =
         let isDebug (v: ServerOptions) = match v with U7.Case3 _ -> true | _ -> false
         let asDebug (v: ServerOptions) = match v with U7.Case3 o -> Some o | _ -> None
         let ofNodeModule v: ServerOptions = v |> U7.Case6
-        let isNodeModule (v: ServerOptions) = match v with U7.Case6 _ -> true | _ -> false
-        let asNodeModule (v: ServerOptions) = match v with U7.Case6 o -> Some o | _ -> None
+        // let isNodeModule (v: ServerOptions) = match v with U7.Case6 _ -> true | _ -> false
+        // let asNodeModule (v: ServerOptions) = match v with U7.Case6 o -> Some o | _ -> None
         let ofCase7 v: ServerOptions = v |> U7.Case7
         let isCase7 (v: ServerOptions) = match v with U7.Case7 _ -> true | _ -> false
         let asCase7 (v: ServerOptions) = match v with U7.Case7 o -> Some o | _ -> None
